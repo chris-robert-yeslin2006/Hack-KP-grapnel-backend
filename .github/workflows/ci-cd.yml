@@ -47,11 +47,11 @@ jobs:
 
       - name: Test basic setup
         run: |
-          cp .env.example .env || true
-          echo "REDIS_URL=redis://localhost:6379/0" >> .env
-          echo "SUPABASE_URL=https://example.supabase.co" >> .env
-          echo "SUPABASE_KEY=test-key" >> .env
-          echo "DATABASE_URL=postgresql://user:pass@localhost:5432/db" >> .env
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
+          echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           python test_setup.py
           # pytest -q
 
