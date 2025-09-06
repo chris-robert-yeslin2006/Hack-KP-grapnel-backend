@@ -128,9 +128,9 @@ async def get_notification_queue_status():
         from app.core.database import db_manager
         
         # Get queue statistics
-        pending = db_manager.supabase.table('notification_queue').select('id', exact_count=True).eq('status', 'pending').execute()
-        failed = db_manager.supabase.table('notification_queue').select('id', exact_count=True).eq('status', 'failed').execute()
-        sent = db_manager.supabase.table('notification_queue').select('id', exact_count=True).eq('status', 'sent').execute()
+        pending = db_manager.supabase.table('notification_queue').select('id', count="exact").eq('status', 'pending').execute()
+        failed = db_manager.supabase.table('notification_queue').select('id', count="exact").eq('status', 'failed').execute()
+        sent = db_manager.supabase.table('notification_queue').select('id', count="exact").eq('status', 'sent').execute()
         
         return {
             "pending": pending.count,

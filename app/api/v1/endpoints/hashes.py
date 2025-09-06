@@ -98,7 +98,8 @@ async def get_hash_stats():
         from app.core.database import db_manager
         
         # Total hashes by system
-        total_result = db_manager.supabase.table('hash_registry').select('source_system', exact_count=True).execute()
+        total_result = db_manager.supabase.table("hash_registry").select("source_system", count="exact").execute()
+
         
         # Recent matches (last 24 hours)
         from datetime import datetime, timedelta
