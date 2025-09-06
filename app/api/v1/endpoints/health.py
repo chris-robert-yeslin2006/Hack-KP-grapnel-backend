@@ -85,5 +85,6 @@ async def readiness_check():
         
         return {"status": "ready", "timestamp": datetime.utcnow().isoformat()}
         
+        
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Service not ready: {str(e)}")

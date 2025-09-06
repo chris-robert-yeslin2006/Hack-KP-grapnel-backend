@@ -2,30 +2,53 @@ version: '3.8'
 
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: your-dockerhub-username/grapnel-backend:latest  # Use your Docker Hub image
     ports:
       - "8000:8000"
-    env_file: .env
     environment:
-      ENVIRONMENT: development
-      DEBUG: "true"
-      REDIS_URL: redis://redis:6379/0
-      # If you prefer env_file only, remove the lines above.
-    depends_on:
-      - redis
-    volumes:
-      - .:/app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      # Database - Your Supabase configuration
+      SUPABASE_URL: https://xhrjtokkmigxcshtbxpz.supabase.co
+      SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhocmp0b2trbWlneGNzaHRieHB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwNzE5MzgsImV4cCI6MjA3MjY0NzkzOH0.PH6X3IRNBWK8HZ8-Ie-fuHYjEtJxPkuC8KQ_foj03_M
+      DATABASE_URL: postgresql://postgres:Robert%0302spidey.c@db.xhrjtokkmigxcshtbxpz.supabase.co:5432/postgres
 
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    command: redis-server --appendonly yes
+      
+      # Redis - Your Upstash Redis
+      REDIS_URL: rediss://default:AYCHAAIncDEwNWJhOGFmNjNmMDI0OTIxYWUzMzY4OTg3NDcwOTQwZHAxMzI5MDM@welcomed-viper-32903.upstash.io:6379
+      
+      # Security
+      SECRET_KEY: your-super-secret-key-here
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      
+      # Environment
+      ENVIRONMENT: production
+      DEBUG: "false"
+      
+      # External APIs
+      WEBHOOK_SECRET: your-webhook-secret
+      MAX_RETRY_ATTEMPTS: 3
+      
+      # Rate Limiting
+      RATE_LIMIT_PER_MINUTE: 100
+    
+    # Remove local redis dependency since you're using Upstash
+    # depends_on:
+    #   - redis
+    
+    # Remove volumes for production
+    # volumes:
+    #   - .:/app
+    
+    # Use production command
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 
-volumes:
-  redis_data:
+# Remove local redis service since you're using Upstash
+# redis:
+#   image: redis:7-alpine
+#   ports:
+#     - "6379:6379"
+#   volumes:
+#     - redis_data:/data
+#   command: redis-server --appendonly yes
+
+# volumes:
+#   redis_data:
