@@ -38,6 +38,7 @@ class Settings(BaseSettings):
         "http://localhost:8000",
         "https://localhost:3000",
         "https://localhost:8000",
+        "https://hack-kp-grapnel-backend.onrender.com"
     ]
 
     class Config:

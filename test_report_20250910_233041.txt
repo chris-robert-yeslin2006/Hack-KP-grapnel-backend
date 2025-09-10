@@ -1,0 +1,32 @@
+Grapnel Backend Test Report
+==========================
+Generated: Wed Sep 10 23:30:41 IST 2025
+Mode: local
+Target URL: http://localhost:8000
+
+Test Results:
+=============
+✅ API Connectivity: PASSED
+
+Endpoint Tests:
+===============
+✅ GET /api/v1/health: PASSED
+✅ GET /api/v1/ready: PASSED
+✅ GET /api/v1/hashes/stats: PASSED
+
+System Information:
+===================
+Hostname: chriss-MacBook-Air.local
+OS: Darwin
+Architecture: arm64
+Disk Usage:
+/dev/disk3s1s1   460Gi    10Gi   187Gi     6%    426k  2.0G    0%   /
+
+API Response Examples:
+=====================
+Health Response:
+{"status":"healthy","timestamp":"2025-09-10T18:00:47.440300","version":"1.0.0","components":{"database":{"status":"healthy","type":"supabase"},"redis":{"status":"healthy","type":"redis"}}}
+Stats Response:
+{"total_hashes":41,"recent_matches":0,"systems_connected":3,"last_updated":"2025-09-10T18:00:47.145215"}
+Test Completion Time: Wed Sep 10 23:30:50 IST 2025
+==========================

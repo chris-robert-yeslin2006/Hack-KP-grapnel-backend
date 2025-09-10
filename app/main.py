@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from contextlib import asynccontextmanager
 import time
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from pathlib import Path
 
 from app.core.config import settings
 from app.core.redis import redis_manager
@@ -76,6 +79,8 @@ async def rate_limiting_middleware(request: Request, call_next):
 
 # Include API routes
 app.include_router(api_router, prefix=settings.api_v1_str)
+# Mount static folder (for CSS, JS, images, etc.)
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 
 @app.get("/")
 async def root():
@@ -85,6 +90,11 @@ async def root():
         "status": "operational",
         "docs_url": "/docs" if settings.debug else "Documentation available to authorized users"
     }
+@app.get("/dashboard", response_class=HTMLResponse)
+async def get_dashboard_page():
+    dashboard_file = Path(__file__).parent / "static" / "dashboard.html"
+    return HTMLResponse(dashboard_file.read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     import uvicorn

@@ -33,7 +33,7 @@ print_error() {
 # Default values
 MODE="local"
 API_URL="http://localhost:8000"
-PRODUCTION_URL=""
+PRODUCTION_URL="https://hack-kp-grapnel-backend.onrender.com"
 
 # Parse arguments
 if [ $# -gt 0 ]; then

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛡️ Grapnel Hash Intelligence Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --card-bg: #1e293b;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      color: var(--light);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo h1 {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .logo-icon {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: var(--light);
+      border: 1px solid var(--gray);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--light);
+    }
+    
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--primary);
+    }
+    
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 5px 0;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: var(--gray);
+    }
+    
+    .chart-container {
+      height: 350px;
+      width: 100%;
+    }
+    
+    .health-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .status-ok { background: var(--secondary); }
+    .status-warning { background: var(--warning); }
+    .status-error { background: var(--danger); }
+    
+    .large-chart { grid-column: 1 / -1; }
+    
+    .alert {
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      background: rgba(239, 68, 68, 0.2);
+      border-left: 4px solid var(--danger);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--primary);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+        <h1>Grapnel Hash Intelligence Dashboard</h1>
+      </div>
+      <div class="controls">
+        <button class="btn btn-primary" id="refresh-btn">
+          <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+        <button class="btn btn-outline" id="mock-toggle-btn">
+  <i class="fas fa-database"></i> Use Mock Data
+</button>
+      </div>
+    </header>
+    
+    <div id="api-alert" style="display: none;"></div>
+    
+    <div class="dashboard-grid">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Overview</h2>
+          <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+        </div>
+        <div class="stat-grid" id="overview-stats">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">System Health</h2>
+          <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+        </div>
+        <div class="stat-grid" id="system-health">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-grid">
+      <div class="card large-chart">
+        <div class="card-header">
+          <h2 class="card-title">Hash Activity (24h)</h2>
+          <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+        </div>
+        <div id="hash-activity" class="chart-container">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-grid">
+      <div class="card large-chart">
+        <div class="card-header">
+          <h2 class="card-title">Match Heatmap</h2>
+          <div class="card-icon"><i class="fas fa-fire"></i></div>
+        </div>
+        <div id="match-heatmap" class="chart-container">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card large-chart">
+        <div class="card-header">
+          <h2 class="card-title">Alerts Timeline</h2>
+          <div class="card-icon"><i class="fas fa-bell"></i></div>
+        </div>
+        <div id="alerts-timeline" class="chart-container">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // MODIFIED ✅: Use a clean, relative URL. This is the only change needed in this file.
+      const API_BASE = "/api/v1/dashboard";
+      // Add this mock data object after the API_BASE declaration
+const MOCK_DATA = {
+  overview: {
+    stats: {
+      total_hashes: 1547892,
+      recent_matches: 342,
+      systems_connected: 12,
+      last_updated: new Date().toISOString()
+    },
+    system_status: {
+      status: "Healthy",
+      version: "2.1.4",
+      components: {
+        database: { status: "Online" },
+        redis: { status: "Online" }
+      }
+    }
+  },
+  'hash-activity': {
+    chart_data: JSON.stringify({
+      data: [{ x: Array.from({length: 24}, (_, i) => i), y: Array.from({length: 24}, () => Math.floor(Math.random() * 100)), type: 'bar' }],
+      layout: { title: 'Hash Activity', paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)' }
+    })
+  },
+  // Add similar mock data for other endpoints...
+};
+let useMockData = false;
+
+      const showAlert = (message, isError = true) => {
+        const alertElement = document.getElementById('api-alert');
+        alertElement.className = 'alert';
+        alertElement.style.background = isError ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+        alertElement.style.borderLeft = isError ? '4px solid var(--danger)' : '4px solid var(--secondary)';
+        alertElement.innerHTML = `<span>${message}</span>`;
+        alertElement.style.display = 'flex';
+        setTimeout(() => { alertElement.style.display = 'none'; }, 5000);
+      };
+      
+      const fetchData = async (endpoint) => {
+  if (useMockData) {
+    return MOCK_DATA[endpoint] || null;
+  }
+  
+  try {
+    const response = await fetch(`${API_BASE}/${endpoint}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status} on /${endpoint}`);
+    return await response.json();
+  } catch (error) {
+    showAlert(`API Error: ${error.message}. Switching to mock data automatically.`);
+    useMockData = true; // Auto-switch to mock data on API error
+    updateMockToggleUI();
+    return MOCK_DATA[endpoint] || null;
+  }
+};
+document.getElementById('mock-toggle-btn').addEventListener('click', () => {
+  useMockData = !useMockData;
+  updateMockToggleUI();
+  refreshAllData();
+  showAlert(useMockData ? 'Switched to mock data' : 'Switched to live API data', false);
+});
+const updateMockToggleUI = () => {
+  const btn = document.getElementById('mock-toggle-btn');
+  const icon = btn.querySelector('i');
+  if (useMockData) {
+    btn.className = 'btn btn-primary';
+    btn.innerHTML = '<i class="fas fa-database"></i> Using Mock Data';
+    icon.style.color = '#10b981';
+  } else {
+    btn.className = 'btn btn-outline';
+    btn.innerHTML = '<i class="fas fa-database"></i> Use Mock Data';
+  }
+};
+      
+      const loadOverview = async () => {
+        const data = await fetchData('overview');
+        if (!data) return;
+        
+        document.getElementById('overview-stats').innerHTML = `
+          <div class="stat-item"><span class="stat-label">Total Hashes</span><span class="stat-value">${data.stats.total_hashes.toLocaleString()}</span></div>
+          <div class="stat-item"><span class="stat-label">Recent Matches</span><span class="stat-value">${data.stats.recent_matches}</span></div>
+          <div class="stat-item"><span class="stat-label">Systems Connected</span><span class="stat-value">${data.stats.systems_connected}</span></div>
+          <div class="stat-item"><span class="stat-label">Last Updated</span><span class="stat-value">${new Date(data.stats.last_updated).toLocaleTimeString()}</span></div>`;
+        
+        document.getElementById('system-health').innerHTML = `
+          <div class="stat-item"><span class="stat-label">Database</span><div class="health-status"><span class="status-indicator status-ok"></span><span>${data.system_status.components.database.status}</span></div></div>
+          <div class="stat-item"><span class="stat-label">Redis Cache</span><div class="health-status"><span class="status-indicator status-ok"></span><span>${data.system_status.components.redis.status}</span></div></div>
+          <div class="stat-item"><span class="stat-label">API Version</span><div class="health-status"><span class="status-indicator status-ok"></span><span>v${data.system_status.version}</span></div></div>
+          <div class="stat-item"><span class="stat-label">Overall</span><div class="health-status"><span class="status-indicator status-ok"></span><span>${data.system_status.status}</span></div></div>`;
+      };
+      
+      const loadChart = async (endpoint, elementId) => {
+        const data = await fetchData(endpoint);
+        if (!data) return;
+        const chartData = JSON.parse(data.chart_data);
+        Plotly.newPlot(elementId, chartData.data, chartData.layout, {displayModeBar: false, responsive: true});
+      };
+      
+      const refreshAllData = async () => {
+        const btn = document.getElementById('refresh-btn');
+        const icon = btn.querySelector('i');
+        btn.disabled = true;
+        icon.classList.add('fa-spin');
+        
+        await Promise.all([
+          loadOverview(),
+          loadChart('hash-activity', 'hash-activity'),
+          loadChart('match-heatmap', 'match-heatmap'),
+          loadChart('alerts-timeline', 'alerts-timeline')
+        ]);
+        
+        btn.disabled = false;
+        icon.classList.remove('fa-spin');
+        showAlert('Dashboard data refreshed successfully!', false);
+      };
+      
+      document.getElementById('refresh-btn').addEventListener('click', refreshAllData);
+      
+      refreshAllData(); // Initial load
+      setInterval(loadOverview, 60000); // Auto-refresh overview stats
+    });
+  </script>
+</body>
+</html>
