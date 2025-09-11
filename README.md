@@ -334,20 +334,20 @@ DEBUG=false
 ### 📑 API Documentation
 | API Docs 1 | API Docs 2 |
 |------------|------------|
-| ![API Docs 1](assets/docs1.png) | ![API Docs 2](assets/docs2.png) |
+| ![API Docs 1](./assets/docs1.png) | ![API Docs 2](./assets/docs2.png) |
 
 ---
 
 ### 🛠️ Redis & Supabase Usage
 | Redis Usage | Supabase Usage |
 |-------------|----------------|
-| ![Redis Usage](assets/redis.png) | ![Supabase Usage](assets/supabase.png) |
+| ![Redis Usage](./assets/redis.png) | ![Supabase Usage](./assets/supabase.png) |
 
 ---
 
 ### 📊 Dashboard
 <p align="center">
-  <img src="assets/dashboard.png" alt="Dashboard Screenshot" width="80%">
+  <img src="./assets/dashboard.png" alt="Dashboard Screenshot" width="80%">
 </p>
 
 ---
@@ -355,14 +355,14 @@ DEBUG=false
 ### 🛠️ CI/CD Workflow
 | CI/CD 1 | CI/CD 2 |
 |---------|---------|
-| ![CI/CD 1](assets/cicd1.png) | ![CI/CD 2](assets/cicd2.png) |
+| ![CI/CD 1](./assets/cicd1.png) | ![CI/CD 2](./assets/cicd2.png) |
 
 ---
 
 ### 🛠️ Production Testing
 | Test 1 | Test 2 |
 |--------|--------|
-| ![Test 1](assets/test1.png) | ![Test 2](assets/test2.png) |
+| ![Test 1](./assets/test1.png) | ![Test 2](./assets/test2.png) |
 
 
 
@@ -433,4 +433,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <p align="center">
   <strong>🛡️ Built with purpose. Deployed with precision. Protecting children through technology. 🌟</strong>
 </p>
+
 
