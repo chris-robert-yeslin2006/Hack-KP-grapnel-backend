@@ -329,41 +329,41 @@ ENVIRONMENT=production
 DEBUG=false
 ```
 
----
 ## 📸 Screenshots
 
 ### 📑 API Documentation
-<div style="display: flex; gap: 10px;">
-  <img src="assets/docs1.png" alt="API Docs 1" width="48%">
-  <img src="assets/docs2.png" alt="API Docs 2" width="48%">
-</div>
+| API Docs 1 | API Docs 2 |
+|------------|------------|
+| ![API Docs 1](assets/docs1.png) | ![API Docs 2](assets/docs2.png) |
 
 ---
 
 ### 🛠️ Redis & Supabase Usage
-<div style="display: flex; gap: 10px;">
-  <img src="assets/redis.png" alt="Redis Usage" width="48%">
-  <img src="assets/supabase.png" alt="Supabase Usage" width="48%">
-</div>
+| Redis Usage | Supabase Usage |
+|-------------|----------------|
+| ![Redis Usage](assets/redis.png) | ![Supabase Usage](assets/supabase.png) |
 
 ---
 
 ### 📊 Dashboard
-<div align="center">
+<p align="center">
   <img src="assets/dashboard.png" alt="Dashboard Screenshot" width="80%">
-</div>
+</p>
 
-### 🛠️ CI/CD workflow
-<div style="display: flex; gap: 10px;">
-  <img src="assets/cicd1.png" alt="Redis Usage" width="48%">
-  <img src="assets/cicd2.png" alt="Supabase Usage" width="48%">
-</div>
+---
 
-### 🛠️ Production testing
-<div style="display: flex; gap: 10px;">
-  <img src="assets/test1.png" alt="Redis Usage" width="48%">
-  <img src="assets/test2.png" alt="Supabase Usage" width="48%">
-</div>
+### 🛠️ CI/CD Workflow
+| CI/CD 1 | CI/CD 2 |
+|---------|---------|
+| ![CI/CD 1](assets/cicd1.png) | ![CI/CD 2](assets/cicd2.png) |
+
+---
+
+### 🛠️ Production Testing
+| Test 1 | Test 2 |
+|--------|--------|
+| ![Test 1](assets/test1.png) | ![Test 2](assets/test2.png) |
+
 
 
 
@@ -433,3 +433,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <p align="center">
   <strong>🛡️ Built with purpose. Deployed with precision. Protecting children through technology. 🌟</strong>
 </p>
+
