@@ -165,15 +165,12 @@ Content-Type: application/json
 ### Using Docker (Recommended)
 ```bash
 # Pull from Docker Hub
-docker pull your-dockerhub-username/grapnel-backend
+docker pullyeslinparker/grapnel-backend
 
 # Run with environment variables
-docker run -d \
-  -p 8000:8000 \
-  -e SUPABASE_URL=your-supabase-url \
-  -e SUPABASE_KEY=your-supabase-key \
-  -e REDIS_URL=your-redis-url \
-  your-dockerhub-username/grapnel-backend
+docker run  
+  -p 8000:8000 
+  yeslinparker/grapnel-backend
 ```
 
 ### Local Development
@@ -181,13 +178,24 @@ docker run -d \
 # Clone the repository
 git clone https://github.com/chris-robert-yeslin2006/Hack-KP-grapnel-backend.git
 cd Hack-KP-grapnel-backend
+#create a ven with python version 3.12
+python3.12 -m venv venv
+#activate venv
+  --(for fish)
+    source venv/bin/activate.fish
+  --(for bash and zsh)
+    source venv/bin/activate
+  -- windows cmd
+    venv\Scripts\activate.bat
+  --window powershell
+    venv\Scripts\Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Setup environment
-cp .env.example .env
-# Edit .env with your credentials
+cp .env.example .env(optional) if you just need to run use my env i give in the repo itself
+# Edit .env with your credentials or use my same env i used supabase and redis cloud
 
 # Setup database
 python setup_supabase_db.py
@@ -411,7 +419,7 @@ This system enables:
 - 💼 [LinkedIn](https://linkedin.com/in/your-profile)
 - 📧 [robertchemist2006@gmail.com](mailto:robertchemist2006@gmail.com)  
 - 📷 [Instagram](https://instagram.com/yeslin_parker) – @yeslin_parker
-- 🐳 [Docker Hub](https://hub.docker.com/u/your-dockerhub-username)
+- 🐳 [Docker Hub](https://hub.docker.com/u/your-dockerhub-yeslinparker)
 
 ---
 
@@ -433,6 +441,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <p align="center">
   <strong>🛡️ Built with purpose. Deployed with precision. Protecting children through technology. 🌟</strong>
 </p>
+
 
 
 
